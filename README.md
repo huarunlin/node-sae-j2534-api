@@ -1,13 +1,90 @@
-# mbus-wm-gd
+# Describe
 
-实现 SAE J2534 Api
+SAE-J2534 with nodejs
 
-# install
+# Install
+
 ```shell
 npm install sae_j2534_api
 ```
 
-# example
+# Method description
+
+##  Attribute: drivers(array)
+
+Host driver array, driver contents include:
+name: device/driver name.
+vendor: device vendor.
+library: driver library path.
+
+## Method: open(library)
+
+This function is used to establish a connection and intialize the Pass-Thru Device.
+library: String, device library path.
+return: int, 0 is success.
+
+## Method: close()
+
+This function is used to close the connection to a Pass-Thru Device.
+return: int, 0 is success.
+
+## Method: connect(protocol, baudrate, flags)
+
+This function is used to establish a logical connection with a protocol channel on the specified SAE J2534 device.
+protocol: channel protocol, reference to the definition of saej2534.
+baudrate: bus baudrate.
+flags: connect flags, reference to the definition of saej2534.
+return: int, 0 is success.
+
+## Method: disconnect()
+
+This function is used to terminate a logical connection with a protocol channel.
+return: int, 0 is success.
+
+## Method: recv(timeout)
+
+This function reads messages and indications from the receive buffer.
+timeout: recv timeout, unit:  millisecond.
+return: object, contents include protocol, id, flags, payload.
+
+## Method: send(id, payload, timeout)
+
+This function is used to send messages.
+id: send msg can id.
+payload: send msg data.
+timeout: send timeout, unit:  millisecond.
+return: int, 0 is success.
+
+## Method: startPeriodicMsg(id, payload, interval)
+
+This function will immediately queue the specified message for transmission, and repeat at the specified interval.
+id: periodic msg can id.
+payload: periodic msg data.
+timeout: periodic interval, unit:  millisecond.
+return: object, contents include err, data. When err equals 0, the operation is successful and data is message id.
+
+## Method: stopPeriodicMsg(msgId)
+
+This function stops the specified periodic message.
+msgId: specified message id.
+return: int, 0 is success.
+
+## Method: startMsgFilter(filterType, mask, pattern, flowControl)
+
+This function starts filtering of incoming messages.
+filterType: filter type, PASS_FILTER/BLOCK_FILTER/FLOW_CONTROL_FILTER, reference to the definition of saej2534.
+mask: msg id mask.
+pattern: pattern msg id.
+flowControl: flow control msg id.
+return: object, contents include err, data. When err equals 0, the operation is successful and data is filter id.
+
+## Method: stopPeriodicMsg(filterId)
+
+This function removes the specified filter. I
+filterId: specified filter id.
+return: int, 0 is success.
+
+# Usage Example
 
 ```javascript
 /**************************/
